@@ -1,0 +1,50 @@
+﻿<Window x:Class="Cinematheatre.Regustr"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Cinematheatre"
+        mc:Ignorable="d"
+        Title="Regustr" Height="600" Width="488" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
+    <Grid Background="#FF632D6D" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="325*"/>
+            <RowDefinition Height="70*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.RowSpan="2">
+            <StackPanel Orientation="Vertical" Margin="10">
+                <TextBlock Text="Логин" Foreground="White" HorizontalAlignment="Center" FontSize="20"/>
+                <TextBox Foreground="White" x:Name="LoginTb" MaxLength="50" Width="340" FontSize="20"/>
+            </StackPanel>
+            <StackPanel Margin="10">
+                <TextBlock Text="Пароль" Foreground="White" FontSize="20" HorizontalAlignment="Center"/>
+                <TextBox Foreground="White" MaxLength="10" x:Name="PasswordTb" Width="340" FontSize="20"/>
+            </StackPanel>
+            <StackPanel Margin="10">
+                <TextBlock Text="Фамилия" Foreground="White" FontSize="20" HorizontalAlignment="Center"/>
+                <TextBox Foreground="White" MaxLength="50" x:Name="LastName" Width="340" FontSize="20"/>
+            </StackPanel>
+            <StackPanel Margin="10">
+                <TextBlock Text="Имя" Foreground="White" FontSize="20" HorizontalAlignment="Center"/>
+                <TextBox Foreground="White" MaxLength="50" x:Name="FirsrNaem" Width="340" FontSize="20"/>
+            </StackPanel>
+            <StackPanel Margin="10">
+                <TextBlock Text="Отчество" Foreground="White" FontSize="20" HorizontalAlignment="Center"/>
+                <TextBox Foreground="White" MaxLength="50" x:Name="Patronomic" Width="340" FontSize="20"/>
+            </StackPanel>
+            <ComboBox SelectedIndex="0" Foreground="White" x:Name="TypeUserCB" FontSize="20" Width="340" Margin="10" HorizontalAlignment="Center">
+                <ComboBoxItem Content="Работник кинотеатра"/>
+                <ComboBoxItem Content="Режиссер"/>
+            </ComboBox>
+        </StackPanel>
+        
+        
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center"   >
+            <Button Content="Регистрация" Margin="15" x:Name="Reg" Click="Reg_Click"/>
+            <Button Content="Назад" Margin="15" x:Name="Back" Click="Back_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

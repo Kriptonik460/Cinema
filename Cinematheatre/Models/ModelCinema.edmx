@@ -1,0 +1,538 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище CinemaModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CinemaPlace">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="lat" Type="decimal" Precision="10" Scale="6" />
+          <Property Name="lot" Type="decimal" Precision="10" Scale="6" />
+        </EntityType>
+        <EntityType Name="Director">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Lastname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Firstname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Patronomic" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdUser" Type="int" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Lastname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Firstname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Patronomic" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdUser" Type="int" />
+        </EntityType>
+        <EntityType Name="Film">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdCategory" Type="int" />
+          <Property Name="IdDirector" Type="int" />
+          <Property Name="Photo" Type="image" />
+          <Property Name="Old" Type="int" />
+          <Property Name="Cost" Type="money" />
+        </EntityType>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="IdFilm" Type="int" />
+          <Property Name="IdCinemaPlace" Type="int" />
+          <Property Name="TimeStart" Type="time" Precision="7" />
+          <Property Name="Duration" Type="time" Precision="7" />
+          <Property Name="IdEmployee" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Director_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Director" Type="Self.Director" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Director">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Film_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Film" Type="Self.Film" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Film">
+              <PropertyRef Name="IdCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Film_Director">
+          <End Role="Director" Type="Self.Director" Multiplicity="0..1" />
+          <End Role="Film" Type="Self.Film" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Director">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Film">
+              <PropertyRef Name="IdDirector" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_CinemaPlace">
+          <End Role="CinemaPlace" Type="Self.CinemaPlace" Multiplicity="0..1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CinemaPlace">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="IdCinemaPlace" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="IdEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_Film">
+          <End Role="Film" Type="Self.Film" Multiplicity="1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Film">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище CinemaModelContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CinemaPlace" EntityType="Self.CinemaPlace" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Director" EntityType="Self.Director" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Film" EntityType="Self.Film" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Director_User" Association="Self.FK_Director_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Director" EntitySet="Director" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_User" Association="Self.FK_Employee_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Film_Category" Association="Self.FK_Film_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Film" EntitySet="Film" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Film_Director" Association="Self.FK_Film_Director">
+            <End Role="Director" EntitySet="Director" />
+            <End Role="Film" EntitySet="Film" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_CinemaPlace" Association="Self.FK_Schedule_CinemaPlace">
+            <End Role="CinemaPlace" EntitySet="CinemaPlace" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_Employee" Association="Self.FK_Schedule_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_Film" Association="Self.FK_Schedule_Film">
+            <End Role="Film" EntitySet="Film" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CinemaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="CinemaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Category" EntityType="CinemaModel.Category" />
+          <EntitySet Name="CinemaPlace" EntityType="CinemaModel.CinemaPlace" />
+          <EntitySet Name="Director" EntityType="CinemaModel.Director" />
+          <EntitySet Name="Employee" EntityType="CinemaModel.Employee" />
+          <EntitySet Name="Film" EntityType="CinemaModel.Film" />
+          <EntitySet Name="Schedule" EntityType="CinemaModel.Schedule" />
+          <EntitySet Name="sysdiagrams" EntityType="CinemaModel.sysdiagrams" />
+          <EntitySet Name="User" EntityType="CinemaModel.User" />
+          <AssociationSet Name="FK_Film_Category" Association="CinemaModel.FK_Film_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Film" EntitySet="Film" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_CinemaPlace" Association="CinemaModel.FK_Schedule_CinemaPlace">
+            <End Role="CinemaPlace" EntitySet="CinemaPlace" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Director_User" Association="CinemaModel.FK_Director_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Director" EntitySet="Director" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Film_Director" Association="CinemaModel.FK_Film_Director">
+            <End Role="Director" EntitySet="Director" />
+            <End Role="Film" EntitySet="Film" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_User" Association="CinemaModel.FK_Employee_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_Employee" Association="CinemaModel.FK_Schedule_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_Film" Association="CinemaModel.FK_Schedule_Film">
+            <End Role="Film" EntitySet="Film" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Film" Relationship="CinemaModel.FK_Film_Category" FromRole="Category" ToRole="Film" />
+        </EntityType>
+        <EntityType Name="CinemaPlace">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="lat" Type="Decimal" Precision="10" Scale="6" />
+          <Property Name="lot" Type="Decimal" Precision="10" Scale="6" />
+          <NavigationProperty Name="Schedule" Relationship="CinemaModel.FK_Schedule_CinemaPlace" FromRole="CinemaPlace" ToRole="Schedule" />
+        </EntityType>
+        <EntityType Name="Director">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Patronomic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdUser" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="CinemaModel.FK_Director_User" FromRole="Director" ToRole="User" />
+          <NavigationProperty Name="Film" Relationship="CinemaModel.FK_Film_Director" FromRole="Director" ToRole="Film" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Patronomic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdUser" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="CinemaModel.FK_Employee_User" FromRole="Employee" ToRole="User" />
+          <NavigationProperty Name="Schedule" Relationship="CinemaModel.FK_Schedule_Employee" FromRole="Employee" ToRole="Schedule" />
+        </EntityType>
+        <EntityType Name="Film">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdCategory" Type="Int32" />
+          <Property Name="IdDirector" Type="Int32" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Old" Type="Int32" />
+          <Property Name="Cost" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Category" Relationship="CinemaModel.FK_Film_Category" FromRole="Film" ToRole="Category" />
+          <NavigationProperty Name="Director" Relationship="CinemaModel.FK_Film_Director" FromRole="Film" ToRole="Director" />
+          <NavigationProperty Name="Schedule" Relationship="CinemaModel.FK_Schedule_Film" FromRole="Film" ToRole="Schedule" />
+        </EntityType>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="IdFilm" Type="Int32" />
+          <Property Name="IdCinemaPlace" Type="Int32" />
+          <Property Name="TimeStart" Type="Time" Precision="7" />
+          <Property Name="Duration" Type="Time" Precision="7" />
+          <Property Name="IdEmployee" Type="Int32" />
+          <NavigationProperty Name="CinemaPlace" Relationship="CinemaModel.FK_Schedule_CinemaPlace" FromRole="Schedule" ToRole="CinemaPlace" />
+          <NavigationProperty Name="Employee" Relationship="CinemaModel.FK_Schedule_Employee" FromRole="Schedule" ToRole="Employee" />
+          <NavigationProperty Name="Film" Relationship="CinemaModel.FK_Schedule_Film" FromRole="Schedule" ToRole="Film" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Director" Relationship="CinemaModel.FK_Director_User" FromRole="User" ToRole="Director" />
+          <NavigationProperty Name="Employee" Relationship="CinemaModel.FK_Employee_User" FromRole="User" ToRole="Employee" />
+        </EntityType>
+        <Association Name="FK_Film_Category">
+          <End Type="CinemaModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="CinemaModel.Film" Role="Film" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Film">
+              <PropertyRef Name="IdCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_CinemaPlace">
+          <End Type="CinemaModel.CinemaPlace" Role="CinemaPlace" Multiplicity="0..1" />
+          <End Type="CinemaModel.Schedule" Role="Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CinemaPlace">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="IdCinemaPlace" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Director_User">
+          <End Type="CinemaModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="CinemaModel.Director" Role="Director" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Director">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Film_Director">
+          <End Type="CinemaModel.Director" Role="Director" Multiplicity="0..1" />
+          <End Type="CinemaModel.Film" Role="Film" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Director">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Film">
+              <PropertyRef Name="IdDirector" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_User">
+          <End Type="CinemaModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="CinemaModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_Employee">
+          <End Type="CinemaModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="CinemaModel.Schedule" Role="Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="IdEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_Film">
+          <End Type="CinemaModel.Film" Role="Film" Multiplicity="1" />
+          <End Type="CinemaModel.Schedule" Role="Schedule" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Film">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище CinemaModelContainer" CdmEntityContainer="CinemaEntities">
+          <EntitySetMapping Name="Category">
+            <EntityTypeMapping TypeName="CinemaModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CinemaPlace">
+            <EntityTypeMapping TypeName="CinemaModel.CinemaPlace">
+              <MappingFragment StoreEntitySet="CinemaPlace">
+                <ScalarProperty Name="lot" ColumnName="lot" />
+                <ScalarProperty Name="lat" ColumnName="lat" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Director">
+            <EntityTypeMapping TypeName="CinemaModel.Director">
+              <MappingFragment StoreEntitySet="Director">
+                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
+                <ScalarProperty Name="Patronomic" ColumnName="Patronomic" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employee">
+            <EntityTypeMapping TypeName="CinemaModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
+                <ScalarProperty Name="Patronomic" ColumnName="Patronomic" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Film">
+            <EntityTypeMapping TypeName="CinemaModel.Film">
+              <MappingFragment StoreEntitySet="Film">
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Old" ColumnName="Old" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="IdDirector" ColumnName="IdDirector" />
+                <ScalarProperty Name="IdCategory" ColumnName="IdCategory" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schedule">
+            <EntityTypeMapping TypeName="CinemaModel.Schedule">
+              <MappingFragment StoreEntitySet="Schedule">
+                <ScalarProperty Name="IdEmployee" ColumnName="IdEmployee" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="TimeStart" ColumnName="TimeStart" />
+                <ScalarProperty Name="IdCinemaPlace" ColumnName="IdCinemaPlace" />
+                <ScalarProperty Name="IdFilm" ColumnName="IdFilm" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="CinemaModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="CinemaModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

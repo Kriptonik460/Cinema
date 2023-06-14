@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="df8a6c409f484f4e8bbbc49eda890a1e" Name="Diagram1">
+        <EntityTypeShape EntityType="CinemaModel.Category" Width="1.5" PointX="3" PointY="7.75" />
+        <EntityTypeShape EntityType="CinemaModel.CinemaPlace" Width="1.5" PointX="5.25" PointY="5" />
+        <EntityTypeShape EntityType="CinemaModel.Director" Width="1.5" PointX="3" PointY="1.375" />
+        <EntityTypeShape EntityType="CinemaModel.Employee" Width="1.5" PointX="3" PointY="4.5" />
+        <EntityTypeShape EntityType="CinemaModel.Film" Width="1.5" PointX="5.25" PointY="1.125" />
+        <EntityTypeShape EntityType="CinemaModel.Schedule" Width="1.5" PointX="7.5" PointY="2.625" />
+        <EntityTypeShape EntityType="CinemaModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="6.75" />
+        <EntityTypeShape EntityType="CinemaModel.User" Width="1.5" PointX="0.75" PointY="3.125" />
+        <AssociationConnector Association="CinemaModel.FK_Film_Category" />
+        <AssociationConnector Association="CinemaModel.FK_Schedule_CinemaPlace" />
+        <AssociationConnector Association="CinemaModel.FK_Director_User" />
+        <AssociationConnector Association="CinemaModel.FK_Film_Director" />
+        <AssociationConnector Association="CinemaModel.FK_Employee_User" />
+        <AssociationConnector Association="CinemaModel.FK_Schedule_Employee" />
+        <AssociationConnector Association="CinemaModel.FK_Schedule_Film" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
